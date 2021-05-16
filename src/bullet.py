@@ -45,23 +45,23 @@ class Bullet:
         self.turtle.pendown()
         self.turtle.forward(self.size/4)
 
-    def draw(self, Map):
+    def draw(self, Map, enemys, pontos):
         if self.show:
-            self.move(Map)
+            self.move(Map, enemys, pontos)
             self.turtle.penup()
             self.turtle.goto(self.x, self.y)
             self.turtle.setheading(0)
             self.turtle.pendown()
             self.shape()
 
-    def move(self, Map):
+    def move(self, Map, enemys, addPonto):
 
         if(self.direction == 'up'):
             if((self.y + self.speed) > self.setup['size'][1]/2):
                 self.show = False
                 return
             else:
-                self.collision([0, 1], Map)
+                self.collision([0, 1], Map, enemys, addPonto)
                 self.y += self.speed
                 self.index[1] += 1
             return
@@ -71,7 +71,7 @@ class Bullet:
                 self.show = False
                 return
             else:
-                self.collision([0, -1], Map)
+                self.collision([0, -1], Map, enemys, addPonto)
                 self.y -= self.speed
                 self.index[1] -= 1
             return
@@ -80,7 +80,7 @@ class Bullet:
                 self.show = False
                 return
             else:
-                self.collision([-1, 0], Map)
+                self.collision([-1, 0], Map, enemys, addPonto)
                 self.x -= self.speed
                 self.index[0] -= 1
             return
@@ -89,12 +89,12 @@ class Bullet:
                 self.show = False
                 return
             else:
-                self.collision([1, 0], Map)
+                self.collision([1, 0], Map, enemys, addPonto)
                 self.x += self.speed
                 self.index[0] += 1
             return
 
-    def collision(self, move, Map):
+    def collision(self, move, Map, enemys, addPonto):
         futureMove = [self.index[0]+move[0], self.index[1]+move[1]]
 
         try:
@@ -103,5 +103,10 @@ class Bullet:
                     Map[futureMove[0]][futureMove[1]].life -= 1
                     Map[futureMove[0]][futureMove[1]].draw()
                     self.show = False
+            for enemy in enemys:
+                if(enemy.alive):
+                    if(enemy.index == [self.index[0]+move[0], self.index[1]+move[1]]):
+                        enemy.alive = False
+                        addPonto()
         except:
             pass

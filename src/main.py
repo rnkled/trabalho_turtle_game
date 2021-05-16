@@ -56,7 +56,7 @@ def loadMap():
 
 setup = loadMap()
 screen = turtle.Screen()
-screen.setup(setup['size'][0]+100, setup['size'][1]+50)
+screen.setup(setup['size'][0]+200, setup['size'][1]+50)
 screen.clearscreen()
 screen.bgcolor("white")
 
@@ -65,6 +65,14 @@ screen.bgcolor("white")
 bulletTurtle = turtle.Turtle()
 bulletTurtle.speed(0)
 bulletTurtle.hideturtle()
+
+enemyTurtle = turtle.Turtle()
+enemyTurtle.speed(0)
+enemyTurtle.hideturtle()
+
+hudTurtle = turtle.Turtle()
+hudTurtle.speed(0)
+hudTurtle.hideturtle()
 
 mapTurtle = turtle.Turtle()
 mapTurtle.speed(0)
@@ -75,8 +83,10 @@ playerTurtle = turtle.Turtle()
 playerTurtle.speed(0)
 playerTurtle.hideturtle()
 
+
 # Instancing Game
-game = Game(mapTurtle, bulletTurtle, playerTurtle, setup)
+game = Game(mapTurtle, bulletTurtle, playerTurtle,
+            enemyTurtle, hudTurtle, setup)
 
 # Setting the main function to handle the game in another thread
 thread = threading.Thread(target=main)

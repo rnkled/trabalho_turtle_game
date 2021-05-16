@@ -3,18 +3,19 @@ import math
 
 class Player:
     def __init__(self, playerTurtle, setup):
-        cellSizeX = (setup['size'][0] / setup['cells'])
-        cellSizeY = (setup['size'][1] / setup['cells'])
+        self.cellSizeX = (setup['size'][0] / setup['cells'])
+        self.cellSizeY = (setup['size'][1] / setup['cells'])
         self.setup = setup
         self.playerTurtle = playerTurtle
-        self.size = cellSizeX * 0.8
-        self.x = (cellSizeX * 0.5) if setup['cells'] % 2 == 0 else 0
-        self.y = (-setup['size'][1]/2) + (cellSizeX)/2
+        self.size = self.cellSizeX * 0.8
+        self.x = (self.cellSizeX * 0.5) if setup['cells'] % 2 == 0 else 0
+        self.y = (-setup['size'][1]/2) + (self.cellSizeX)/2
         self.index = [math.floor(setup['cells']/2), 0]
         self.direction = 'up'
         self.speed = setup['size'][0] / setup['cells']
 
         self.start = False
+        self.alive = True
 
     def shape(self):
         u = self.size/15
@@ -114,13 +115,13 @@ class Player:
         self.playerTurtle.left(angle)
 
     def draw(self, Map):
-        self.move(Map)
-        self.playerTurtle.penup()
-        self.playerTurtle.goto(self.x, self.y)
-        self.playerTurtle.setheading(0)
-        self.playerTurtle.pendown()
-        #self.playerTurtle.write((self.index[0], self.index[1]))
-        self.shape()
+        if(self.alive):
+            self.move(Map)
+            self.playerTurtle.penup()
+            self.playerTurtle.goto(self.x, self.y)
+            self.playerTurtle.setheading(0)
+            self.playerTurtle.pendown()
+            self.shape()
 
     def move(self, Map):
 
